@@ -1,0 +1,18 @@
+---
+
+- name: Deploy index.php to Nginx servers
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Remove the default index.nginx-debian.html file
+      file:
+        path: /var/www/html/index.nginx-debian.html
+        state: absent
+
+    - name: Copy custom index.php to Nginx default directory
+      copy:
+        src: files/index.php
+        dest: /var/www/html/index.php
+        owner: www-data
+        group: www-data
+        mode: '0644'

@@ -1,0 +1,25 @@
+---
+
+- name: Install php on all servers
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Add PHP 8.2 repository
+      apt_repository:
+        repo: ppa:ondrej/php
+        state: present
+
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+
+    - name: Install PHP 8.2-FPM
+      apt:
+        name: php8.2-fpm
+        state: present
+
+    - name: Ensure php is enabled and started
+      service:
+        name: php8.2-fpm
+        state: started
+        enabled: true
